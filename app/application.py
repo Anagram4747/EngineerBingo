@@ -15,7 +15,7 @@ class EngineerBingoApp:
         self.log_data_list = []
         self.output_count = 0  # 出力回数のカウント
 
-        self.log = tk.Listbox(root, width=40, height=20)  # 幅を調整
+        self.log = tk.Listbox(root, width=7, height=20)  # 幅を調整
         self.log.grid(row=0, column=1, rowspan=3, padx=10)
 
         self.generate_button = tk.Button(root, text="表示ボタン", command=self.generate_random_number)
@@ -48,7 +48,7 @@ class EngineerBingoApp:
 
         converted_number = self.convert_base(number, base)
         self.number_label.config(text=f"表示された数字: {converted_number}")
-        self.log.insert(tk.END, f"{converted_number: >7} (ID: {number}, Base: {base})")
+        self.log.insert(tk.END, f"{converted_number.ljust(7)} (ID: {number}, Base: {base})")
 
         self.output_count += 1
         self.update_button_state()  # ボタンの状態を更新

@@ -24,8 +24,9 @@ class RandomNumberGeneratorApp:
         base = choice(["2", "8", "10", "16"])
         number = randint(1, 75)
         self.generated_numbers.add(number)
-        self.number_label.config(text=f"表示された数字: {self.convert_base(number, base)}")
-        self.log.insert(tk.END, f"{number} ({self.convert_base(number, base)})")
+        converted_number = self.convert_base(number, base)
+        self.number_label.config(text=f"表示された数字: {converted_number}")
+        self.log.insert(tk.END, f"{converted_number}")
 
     def reset_log(self):
         self.generated_numbers.clear()
@@ -35,13 +36,13 @@ class RandomNumberGeneratorApp:
     def convert_base(self, number, base):
         base = int(base)
         if base == 2:
-            return bin(number)[2:]
+            return f"{bin(number)[2:]}(2)"
         elif base == 8:
-            return oct(number)[2:]
+            return f"{oct(number)[2:]}(8)"
         elif base == 10:
-            return str(number)
+            return f"{number}(10)"
         elif base == 16:
-            return hex(number)[2:]
+            return f"{hex(number)[2:]}(16)"
 
 if __name__ == "__main__":
     root = tk.Tk()

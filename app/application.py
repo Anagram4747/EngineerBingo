@@ -7,10 +7,10 @@ class LogData:
         self.isSelected = isSelected
         self.base = base
 
-class RandomNumberGeneratorApp:
+class EngineerBingoApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("ランダム数字ジェネレータ")
+        self.root.title("エンジニアビンゴ")
 
         self.log_data_list = []
 
@@ -61,5 +61,5 @@ class RandomNumberGeneratorApp:
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = RandomNumberGeneratorApp(root)
+    app = EngineerBingoApp(root)
     root.mainloop()

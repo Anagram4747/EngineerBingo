@@ -1,5 +1,5 @@
 import tkinter as tk
-from random import randint
+from random import randint, choice
 
 class RandomNumberGeneratorApp:
     def __init__(self, root):
@@ -18,16 +18,10 @@ class RandomNumberGeneratorApp:
         self.number_label = tk.Label(root, text="")
         self.number_label.grid(row=2, column=0, pady=10)
 
-        self.base_var = tk.StringVar()
-        self.base_var.set("10")  # デフォルトは10進数
-
-        self.base_menu = tk.OptionMenu(root, self.base_var, "2", "8", "10", "16")
-        self.base_menu.grid(row=3, column=0, pady=10)
-
         self.generated_numbers = set()
 
     def generate_random_number(self):
-        base = int(self.base_var.get())
+        base = choice(["2", "8", "10", "16"])
         number = randint(1, 75)
         self.generated_numbers.add(number)
         self.number_label.config(text=f"表示された数字: {self.convert_base(number, base)}")
@@ -39,6 +33,7 @@ class RandomNumberGeneratorApp:
         self.log.delete(0, tk.END)
 
     def convert_base(self, number, base):
+        base = int(base)
         if base == 2:
             return bin(number)[2:]
         elif base == 8:

@@ -18,18 +18,28 @@ class RandomNumberGeneratorApp:
         self.number_label = tk.Label(root, text="")
         self.number_label.grid(row=2, column=0, pady=10)
 
+        self.base_var = tk.StringVar()
+        self.base_var.set("10")  # デフォルトは10進法
+
+        self.base_menu = tk.OptionMenu(root, self.base_var, "2", "8", "10", "16")
+        self.base_menu.grid(row=3, column=0, pady=10)
+
         self.generated_numbers = set()
 
     def generate_random_number(self):
+        base = int(self.base_var.get())
         number = randint(1, 75)
         self.generated_numbers.add(number)
-        self.number_label.config(text=f"表示された数字: {number}")
-        self.log.insert(tk.END, number)
+        self.number_label.config(text=f"表示された数字: {self.convert_base(number, base)}")
+        self.log.insert(tk.END, f"{number} ({self.convert_base(number, base)})")
 
     def reset_log(self):
         self.generated_numbers.clear()
         self.number_label.config(text="")
         self.log.delete(0, tk.END)
+
+    def convert_base(self, number, base):
+        return format(number, f"0{int(base)}d")
 
 if __name__ == "__main__":
     root = tk.Tk()

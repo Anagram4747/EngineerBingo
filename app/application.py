@@ -13,20 +13,27 @@ class EngineerBingoApp:
         self.root.title("エンジニアビンゴ")
 
         self.log_data_list = []
+        self.output_count = 0  # 出力回数のカウント
 
-        self.log = tk.Listbox(root, width=30, height=10)
+        self.log = tk.Listbox(root, width=30, height=20)  # 高さを2倍に変更
         self.log.grid(row=0, column=1, rowspan=3, padx=10)
 
         self.generate_button = tk.Button(root, text="表示ボタン", command=self.generate_random_number)
-        self.generate_button.grid(row=0, column=0, pady=10)
+        self.generate_button.grid(row=0, column=0, pady=20)
 
         self.reset_button = tk.Button(root, text="リセットボタン", command=self.reset_log)
-        self.reset_button.grid(row=1, column=0, pady=10)
+        self.reset_button.grid(row=1, column=0, pady=20)
 
         self.number_label = tk.Label(root, text="")
-        self.number_label.grid(row=2, column=0, pady=10)
+        self.number_label.grid(row=2, column=0, pady=20)
+
+        self.update_button_state()  # ボタンの状態を更新
 
     def generate_random_number(self):
+        if self.output_count >= 75:
+            self.number_label.config(text="75回出力しました。")
+            return
+
         available_numbers = [data for data in range(1, 76) if not any(log.id == data and log.isSelected for log in self.log_data_list)]
         
         if not available_numbers:
@@ -43,10 +50,15 @@ class EngineerBingoApp:
         self.number_label.config(text=f"表示された数字: {converted_number}")
         self.log.insert(tk.END, f"{converted_number} (ID: {number}, Base: {base})")
 
+        self.output_count += 1
+        self.update_button_state()  # ボタンの状態を更新
+
     def reset_log(self):
         self.log_data_list.clear()
+        self.output_count = 0
         self.number_label.config(text="")
         self.log.delete(0, tk.END)
+        self.update_button_state()  # ボタンの状態を更新
 
     def convert_base(self, number, base):
         base = int(base)
@@ -58,6 +70,12 @@ class EngineerBingoApp:
             return f"{number}(10)"
         elif base == 16:
             return f"{hex(number)[2:]}(16)"
+
+    def update_button_state(self):
+        if self.output_count >= 75:
+            self.generate_button.config(state=tk.DISABLED)
+        else:
+            self.generate_button.config(state=tk.NORMAL)
 
 if __name__ == "__main__":
     root = tk.Tk()

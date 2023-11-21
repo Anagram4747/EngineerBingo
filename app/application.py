@@ -19,7 +19,7 @@ class RandomNumberGeneratorApp:
         self.number_label.grid(row=2, column=0, pady=10)
 
         self.base_var = tk.StringVar()
-        self.base_var.set("10")  # デフォルトは10進法
+        self.base_var.set("10")  # デフォルトは10進数
 
         self.base_menu = tk.OptionMenu(root, self.base_var, "2", "8", "10", "16")
         self.base_menu.grid(row=3, column=0, pady=10)
@@ -39,7 +39,14 @@ class RandomNumberGeneratorApp:
         self.log.delete(0, tk.END)
 
     def convert_base(self, number, base):
-        return format(number, f"0{int(base)}d")
+        if base == 2:
+            return bin(number)[2:]
+        elif base == 8:
+            return oct(number)[2:]
+        elif base == 10:
+            return str(number)
+        elif base == 16:
+            return hex(number)[2:]
 
 if __name__ == "__main__":
     root = tk.Tk()
